@@ -1,0 +1,26 @@
+{
+  "id": "./index.html",
+  "name": "Quran Advance",
+  "short_name": "Quran",
+  "description": "An elegant Quran reader with translations, audio, bookmarks, AyahAI, and offline support.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f7f3",
+  "theme_color": "#176b52",
+  "categories": ["education", "books", "lifestyle"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23176b52'/%3E%3Cpath d='M94 116c79-38 128-8 162 30 34-38 83-68 162-30v273c-79-38-128-8-162 30-34-38-83-68-162-30z' fill='none' stroke='%23fff' stroke-width='23' stroke-linejoin='round'/%3E%3Cpath d='M256 146v273M130 186c29-6 59 3 78 18m98 0c19-15 49-24 78-18M130 235c29-6 59 3 78 18m98 0c19-15 49-24 78-18' fill='none' stroke='%23fff' stroke-width='15' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Read Quran", "short_name": "Read", "url": "./index.html" }
+  ]
+}

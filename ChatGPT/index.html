@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#176b52">
+  <meta name="description" content="Quran Advance — a respectful, installable Quran reader with translations, bookmarks, recitation, offline support, and AyahAI.">
+  <meta name="color-scheme" content="light dark">
+  <title>Quran Advance</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:light;--bg:#f4f7f3;--paper:#fff;--paper-2:#f8faf7;--ink:#202b25;--muted:#6f7c73;--line:#e3eae3;--green:#176b52;--green-2:#e7f3ec;--gold:#bd9856;--danger:#b94747;--shadow:0 14px 34px rgba(29,62,43,.08);--radius:20px;--arabic-size:2rem;--translation-size:1rem;--bottom-height:72px}
+    html[data-theme="dark"]{color-scheme:dark;--bg:#111a16;--paper:#19251f;--paper-2:#202e26;--ink:#edf4ee;--muted:#a6b6aa;--line:#304137;--green:#83c6a6;--green-2:#233d30;--gold:#d7b875;--danger:#ff9999;--shadow:0 14px 34px rgba(0,0,0,.20)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:95px}body{margin:0;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;transition:background .2s,color .2s}button,input,select{font:inherit}button,a,input,select{ -webkit-tap-highlight-color:transparent}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:3px}a{color:inherit}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.app-shell{min-height:100vh;padding-bottom:calc(var(--bottom-height) + env(safe-area-inset-bottom) + 22px)}
+    .topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:12px 16px}.topbar-inner{max-width:1120px;margin:auto;display:flex;align-items:center;gap:12px}.brand-mark{width:44px;height:44px;display:grid;place-items:center;flex:0 0 auto;border-radius:15px;background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(23,107,82,.2)}.brand-mark svg{width:27px;height:27px}.brand-copy{min-width:0;flex:1}.brand-title{font-size:1rem;line-height:1.2;margin:0;font-weight:700;letter-spacing:-.03em}.brand-sub{color:var(--muted);font-size:.72rem;margin-top:3px}.top-actions{display:flex;align-items:center;gap:7px}.icon-button,.soft-button,.primary-button,.outline-button,.text-button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:13px;min-height:42px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;font-weight:600;font-size:.84rem;white-space:nowrap}.icon-button{width:42px;padding:0;font-size:1.08rem}.primary-button{background:var(--green);color:#fff;border-color:var(--green)}.outline-button{background:transparent;border-color:var(--green);color:var(--green)}html[data-theme="dark"] .outline-button{color:var(--green)}.soft-button{background:var(--green-2);border-color:transparent;color:var(--green)}.text-button{min-height:34px;padding:0 8px;border:0;background:transparent;color:var(--muted)}.top-ask{display:inline-flex;padding:0 8px;min-height:38px;font-size:.7rem}.page-wrap{max-width:1000px;margin:0 auto;padding:18px 14px 24px}.search-row{display:flex;gap:8px;align-items:center;margin-bottom:15px}.searchbox{position:relative;flex:1;min-width:0}.searchbox .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1.05rem;pointer-events:none}.searchbox input{width:100%;height:48px;border:1px solid var(--line);border-radius:16px;background:var(--paper);color:var(--ink);padding:0 14px 0 42px;box-shadow:0 3px 12px rgba(20,50,30,.025)}.search-row .icon-button{height:48px;width:48px}.status-strip{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 18px;color:var(--muted);font-size:.78rem}.status-left{display:flex;align-items:center;gap:7px}.status-dot{width:8px;height:8px;border-radius:50%;background:#38a56d;display:inline-block}.status-dot.offline{background:#d99c3c}.status-pill{border:1px solid var(--line);background:var(--paper);padding:5px 9px;border-radius:999px;white-space:nowrap}
+    .view-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:14px 2px 16px}.eyebrow{font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;color:var(--green);font-weight:700}.view-heading h1{font-size:1.55rem;line-height:1.18;margin:3px 0 0;letter-spacing:-.045em}.muted{color:var(--muted)}.small{font-size:.82rem}.surah-hero{position:relative;overflow:hidden;background:linear-gradient(130deg,#145c47,#218464);color:white;border-radius:24px;padding:22px 20px;margin-bottom:16px;box-shadow:0 14px 28px rgba(21,95,69,.15)}.surah-hero:after{content:"۞";position:absolute;right:12px;bottom:-40px;font-family:"Amiri",serif;font-size:11rem;line-height:1;color:rgba(255,255,255,.08);pointer-events:none}.hero-top{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.hero-number{width:40px;height:40px;border-radius:14px;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;font-weight:700;background:rgba(255,255,255,.08)}.hero-name{flex:1}.hero-name h1{font-size:1.45rem;margin:0;letter-spacing:-.04em}.hero-name p{font-size:.82rem;margin:4px 0 0;color:rgba(255,255,255,.78)}.hero-arabic{font-family:"Amiri Quran","Amiri",serif;font-size:2rem;line-height:1.35;text-align:right;direction:rtl;position:relative;z-index:1;margin-top:14px}.hero-meta{display:flex;flex-wrap:wrap;gap:7px;position:relative;z-index:1;margin-top:12px}.hero-meta span{font-size:.72rem;border:1px solid rgba(255,255,255,.25);padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.08)}.reader-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 1px 12px;flex-wrap:wrap}.reader-tools .left,.reader-tools .right{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.reader-tools .soft-button,.reader-tools .outline-button{min-height:37px;font-size:.78rem;padding:0 10px}.progress-track{height:4px;background:var(--line);border-radius:20px;overflow:hidden;margin:0 2px 16px}.progress-track span{height:100%;display:block;background:var(--green);width:0;transition:width .2s}
+    .ayah-list{display:grid;gap:12px}.ayah-card{background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:16px 15px 13px;box-shadow:0 3px 13px rgba(20,50,30,.025);scroll-margin-top:95px;transition:border-color .2s,box-shadow .2s}.ayah-card.in-view{border-color:color-mix(in srgb,var(--green) 48%,var(--line))}.ayah-card.playing{border-color:var(--green);box-shadow:0 0 0 2px color-mix(in srgb,var(--green) 17%,transparent),var(--shadow)}.ayah-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.ayah-number-wrap{display:flex;align-items:center;gap:9px;min-width:0}.ayah-number-badge{width:35px;height:35px;border-radius:12px;background:var(--green-2);color:var(--green);display:grid;place-items:center;font-size:.77rem;font-weight:700;flex:0 0 auto}.ayah-meta{min-width:0}.ayah-meta strong{font-size:.78rem;display:block}.ayah-meta span{font-size:.69rem;color:var(--muted)}.ayah-action-row{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex-wrap:wrap}.mini-action{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:32px;min-width:32px;padding:0 7px;border-radius:10px;border:1px solid var(--line);background:var(--paper-2);color:var(--muted);font-size:.75rem;text-decoration:none}.mini-action.is-saved{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 55%,var(--line));background:color-mix(in srgb,var(--gold) 10%,var(--paper))}.mini-action.ask{background:var(--green-2);border-color:transparent;color:var(--green);font-weight:700;font-size:.71rem}.arabic-text{font-family:"Amiri Quran","Amiri",serif;font-size:var(--arabic-size);font-weight:400;text-align:right;direction:rtl;line-height:2.05;letter-spacing:0;margin:4px 0 14px;overflow-wrap:anywhere}.translation-text{font-size:var(--translation-size);line-height:1.85;color:var(--ink);margin:0 1px 12px}.ayah-card-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}.verse-detail{font-size:.72rem;color:var(--muted)}.bottom-space{height:10px}
+    .surah-tools{display:flex;gap:9px;margin-bottom:13px;flex-wrap:wrap}.surah-tools input,.surah-tools select,.jump-form input,.jump-form select{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:13px;height:44px;padding:0 12px;min-width:0}.surah-tools input{flex:1}.surah-tools select{max-width:142px}.surah-list{display:grid;grid-template-columns:1fr;gap:9px}.surah-item,.saved-item,.history-item,.result-item{width:100%;text-align:left;display:flex;align-items:center;gap:12px;padding:12px;background:var(--paper);border:1px solid var(--line);border-radius:16px;color:var(--ink);text-decoration:none}.surah-item:hover,.saved-item:hover,.history-item:hover,.result-item:hover{border-color:var(--green)}.surah-num{width:38px;height:38px;border-radius:13px;background:var(--paper-2);border:1px solid var(--line);display:grid;place-items:center;font-size:.78rem;font-weight:700;flex:0 0 auto}.surah-name{min-width:0;flex:1}.surah-name strong{display:block;font-size:.9rem}.surah-name span{display:block;font-size:.74rem;color:var(--muted);margin-top:2px}.surah-arabic{font-family:"Amiri",serif;font-size:1.45rem;text-align:right;white-space:nowrap}.section-label{font-size:.83rem;font-weight:700;margin:18px 2px 9px;display:flex;justify-content:space-between;align-items:center;gap:10px}.result-list,.saved-list,.history-list{display:grid;gap:9px}.result-item{display:block;padding:15px}.result-item .result-head{display:flex;justify-content:space-between;gap:10px;font-size:.78rem;color:var(--muted);margin-bottom:9px}.result-item .result-arabic{font-family:"Amiri Quran","Amiri",serif;font-size:1.45rem;line-height:1.9;text-align:right;direction:rtl;margin-bottom:8px}.result-item .result-translation{font-size:.88rem;line-height:1.7}.result-open{font-size:.74rem;color:var(--green);font-weight:700;margin-top:8px}.empty-state{background:var(--paper);border:1px dashed var(--line);border-radius:18px;padding:28px 18px;text-align:center;color:var(--muted)}.empty-icon{font-size:2rem;margin-bottom:7px}.empty-state h2{font-size:1rem;color:var(--ink);margin:0 0 5px}.empty-state p{margin:0;font-size:.85rem}.setting-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:11px}.setting-head{display:flex;justify-content:space-between;gap:14px;align-items:center}.setting-head strong{font-size:.9rem;display:block}.setting-head span{color:var(--muted);font-size:.76rem;display:block;margin-top:3px}.setting-card input[type=range]{width:100%;margin:16px 0 2px;accent-color:var(--green)}.setting-card input[type=checkbox]{width:19px;height:19px;accent-color:var(--green)}.setting-footer{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted)}.setting-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.skeleton{height:170px;border-radius:19px;background:linear-gradient(90deg,var(--paper) 25%,var(--paper-2) 50%,var(--paper) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border:1px solid var(--line)}.skeleton.small-skeleton{height:85px}@keyframes shimmer{to{background-position:-200% 0}}.error-panel{border:1px solid #e6c4a6;background:color-mix(in srgb,#f5a35d 10%,var(--paper));border-radius:18px;padding:18px;margin:12px 0}.error-panel strong{display:block;margin-bottom:5px}.error-panel p{font-size:.85rem;margin:0 0 10px;color:var(--muted)}
+    .bottom-nav{position:fixed;z-index:30;bottom:0;left:0;right:0;min-height:calc(var(--bottom-height) + env(safe-area-inset-bottom));padding:7px 10px calc(7px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:4px;background:color-mix(in srgb,var(--paper) 93%,transparent);backdrop-filter:blur(18px);border-top:1px solid var(--line)}.nav-inner{display:flex;align-items:stretch;justify-content:space-around;width:100%;max-width:560px;gap:3px}.nav-item{border:0;background:transparent;color:var(--muted);min-width:0;flex:1;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:.65rem;font-weight:600;padding:5px 2px}.nav-item .nav-icon{font-size:1.18rem;line-height:1.2}.nav-item.active{background:var(--green-2);color:var(--green)}.audio-player{position:fixed;z-index:25;left:10px;right:10px;bottom:calc(var(--bottom-height) + env(safe-area-inset-bottom) + 8px);max-width:650px;margin:auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:10px 12px;display:flex;align-items:center;gap:9px}.audio-player[hidden]{display:none}.audio-track{min-width:0;flex:1}.audio-track strong{font-size:.78rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.audio-track span{font-size:.68rem;color:var(--muted)}.audio-controls{display:flex;align-items:center;gap:4px}.audio-controls button{width:33px;height:34px;border:1px solid var(--line);border-radius:10px;background:var(--paper-2);color:var(--ink);font-size:.82rem}.audio-controls button.main-play{background:var(--green);color:white;border-color:var(--green)}.audio-speed{width:52px;font-size:.7rem;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);height:32px}.toast{position:fixed;z-index:60;left:50%;bottom:calc(var(--bottom-height) + env(safe-area-inset-bottom) + 20px);transform:translate(-50%,12px);opacity:0;pointer-events:none;background:var(--ink);color:var(--paper);padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);font-size:.82rem;transition:opacity .2s,transform .2s;max-width:calc(100vw - 28px);text-align:center}.toast.visible{opacity:1;transform:translate(-50%,0)}
+    .modal-backdrop{position:fixed;z-index:50;inset:0;background:rgba(8,18,12,.5);backdrop-filter:blur(5px);display:grid;place-items:center;padding:18px}.modal-backdrop[hidden]{display:none}.modal{width:min(100%,440px);background:var(--paper);border:1px solid var(--line);border-radius:23px;padding:20px;box-shadow:var(--shadow)}.modal-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.modal-header h2{font-size:1.15rem;margin:0}.jump-form{display:grid;gap:12px}.jump-form label{font-size:.79rem;font-weight:700}.jump-form select,.jump-form input{width:100%;margin-top:5px}.jump-form .primary-button{margin-top:4px;height:46px}.modal-close{width:37px;height:37px;border:1px solid var(--line);border-radius:12px;background:var(--paper-2);color:var(--ink);font-size:1.1rem}
+    @media(min-width:600px){.topbar{padding:14px 22px}.top-ask{display:inline-flex}.page-wrap{padding:24px 22px 34px}.surah-list{grid-template-columns:repeat(2,minmax(0,1fr))}.ayah-card{padding:19px 20px 15px}.arabic-text{font-size:calc(var(--arabic-size) + .12rem)}.surah-hero{padding:25px 25px}.view-heading h1{font-size:1.75rem}}
+    @media(min-width:900px){.topbar-inner{gap:15px}.page-wrap{padding-top:28px}.surah-list{grid-template-columns:repeat(2,minmax(0,1fr))}.ayah-list{gap:14px}.top-ask{display:inline-flex}.audio-player{bottom:calc(var(--bottom-height) + 18px)}.app-shell{padding-bottom:calc(var(--bottom-height) + 36px)}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M5 7.5c4.6-2.2 8-.5 11 2.2 3-2.7 6.4-4.4 11-2.2v16c-4.6-2.2-8-.5-11 2.2-3-2.7-6.4-4.4-11-2.2v-16Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 9.8v15.5M8.5 12c2.1-.5 4.2.1 5.5 1.1M19 13.1c1.3-1 3.4-1.6 5.5-1.1M8.5 16c2.1-.5 4.2.1 5.5 1.1M19 17.1c1.3-1 3.4-1.6 5.5-1.1" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"/></svg></div>
+      <div class="brand-copy"><p class="brand-title">Quran Advance</p><div class="brand-sub">Read · Reflect · Remember</div></div>
+      <div class="top-actions">
+        <a class="primary-button top-ask" href="https://supermanmubashir-png.github.io/AyahAI" target="_blank" rel="noopener noreferrer" aria-label="Open AyahAI in a new tab">✦ Ask AyahAI</a>
+        <button class="icon-button" id="themeButton" data-action="toggle-theme" aria-label="Toggle dark and light theme" title="Toggle theme">☾</button>
+      </div>
+    </div>
+  </header>
+  <main class="page-wrap">
+    <form class="search-row" id="globalSearchForm" role="search">
+      <label class="searchbox"><span class="search-icon" aria-hidden="true">⌕</span><span class="sr-only">Search Quran and translations</span><input id="globalSearch" type="search" placeholder="Search Quran, translation, surah…" autocomplete="off" aria-label="Search Quran and translations"></label>
+      <button class="icon-button" type="button" data-action="jump-open" aria-label="Jump to surah and ayah" title="Jump to ayah">↗</button>
+    </form>
+    <div class="status-strip"><div class="status-left"><span id="connectionDot" class="status-dot"></span><span id="connectionLabel">Checking connection…</span></div><span class="status-pill" id="dataStatus">Preparing Quran data</span></div>
+    <div id="viewRoot" aria-live="polite"><div class="skeleton" aria-hidden="true"></div><div class="skeleton small-skeleton" aria-hidden="true" style="margin-top:12px"></div><p class="muted small">Loading Quran text and translation…</p></div>
+  </main>
+</div>
+<nav class="bottom-nav" aria-label="Main navigation"><div class="nav-inner">
+  <button class="nav-item active" data-view="reader" aria-label="Reader"><span class="nav-icon" aria-hidden="true">◧</span><span>Read</span></button>
+  <button class="nav-item" data-view="surahs" aria-label="Surah list"><span class="nav-icon" aria-hidden="true">☷</span><span>Surahs</span></button>
+  <button class="nav-item" data-view="bookmarks" aria-label="Bookmarks"><span class="nav-icon" aria-hidden="true">☆</span><span>Saved</span></button>
+  <button class="nav-item" data-view="settings" aria-label="Settings"><span class="nav-icon" aria-hidden="true">⚙</span><span>Settings</span></button>
+</div></nav>
+<section class="audio-player" id="audioPlayer" aria-label="Quran recitation player" hidden>
+  <div class="audio-track"><strong id="audioTitle">Recitation</strong><span id="audioSubtitle">Mishary Rashid Alafasy</span></div>
+  <div class="audio-controls">
+    <button type="button" data-action="audio-prev" aria-label="Previous ayah" title="Previous ayah">⏮</button>
+    <button type="button" class="main-play" id="audioPlayButton" data-action="audio-toggle" aria-label="Play or pause recitation" title="Play or pause">▶</button>
+    <button type="button" data-action="audio-next" aria-label="Next ayah" title="Next ayah">⏭</button>
+    <button type="button" id="repeatButton" data-action="audio-repeat" aria-label="Repeat ayah" title="Repeat ayah">↻</button>
+    <label class="sr-only" for="audioSpeed">Playback speed</label><select id="audioSpeed" class="audio-speed" aria-label="Playback speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select>
+  </div>
+</section>
+<audio id="quranAudio" preload="none" crossorigin="anonymous"></audio>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="jumpModal" hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="jumpTitle">
+    <div class="modal-header"><h2 id="jumpTitle">Jump to an ayah</h2><button type="button" class="modal-close" data-action="jump-close" aria-label="Close jump dialog">×</button></div>
+    <form class="jump-form" id="jumpForm">
+      <label>Surah<select id="jumpSurah" required></select></label>
+      <label>Ayah number<input id="jumpAyah" type="number" min="1" value="1" required></label>
+      <button class="primary-button" type="submit">Open ayah <span aria-hidden="true">→</span></button>
+    </form>
+  </section>
+</div>
+<script>
+(() => {
+  'use strict';
+  const API = 'https://api.alquran.cloud/v1';
+  const ARABIC_EDITION = 'quran-uthmani';
+  const TRANSLATION_EDITION = 'en.sahih';
+  const AUDIO_BASE = 'https://cdn.islamic.network/quran/audio/128/ar.alafasy/';
+  const AYAH_AI_HOME = 'https://supermanmubashir-png.github.io/AyahAI';
+  const AYAH_AI_PAGE = AYAH_AI_HOME + '/home.html';
+  const STORE_KEY = 'quranAdvancePreferences';
+  const DB_NAME = 'quranAdvanceOfflineDB';
+  const DB_VERSION = 1;
+  const DB_STORE = 'datasets';
+  const SAMPLE_DATA = [{number:1,name:'الفَاتِحَة',englishName:'Al-Fatiha',englishNameTranslation:'The Opening',revelationType:'Meccan',numberOfAyahs:7,ayahs:[
+    {number:1,numberInSurah:1,text:'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',translation:'In the name of Allah, the Most Compassionate, the Most Merciful.',juz:1,page:1},
+    {number:2,numberInSurah:2,text:'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',translation:'All praise is for Allah—Lord of all worlds,',juz:1,page:1},
+    {number:3,numberInSurah:3,text:'الرَّحْمَٰنِ الرَّحِيمِ',translation:'the Most Compassionate, Most Merciful,',juz:1,page:1},
+    {number:4,numberInSurah:4,text:'مَالِكِ يَوْمِ الدِّينِ',translation:'Master of the Day of Judgment.',juz:1,page:1},
+    {number:5,numberInSurah:5,text:'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',translation:'You alone we worship and You alone we ask for help.',juz:1,page:1},
+    {number:6,numberInSurah:6,text:'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',translation:'Guide us along the Straight Path,',juz:1,page:1},
+    {number:7,numberInSurah:7,text:'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ',translation:'the Path of those You have blessed—not those You are displeased with, or those who are astray.',juz:1,page:1}
+  ]}];
+  const defaultPrefs = {theme:'light',arabicSize:32,translationSize:16,showTranslation:true,playbackSpeed:1};
+  const state = {
+    quran:[], allAyahs:[], ayahByGlobal:new Map(), surahByNumber:new Map(),
+    currentView:'reader', currentSurahNumber:1, currentAyahNumber:1, currentGlobalNumber:1,
+    lastRead:null, bookmarks:[], history:[], recentlyRead:[], prefs:{...defaultPrefs},
+    isSample:false, isPlaying:false, repeatAyah:false, playingGlobalNumber:null, observer:null, installPrompt:null, toastTimer:null
+  };
+  const $ = (selector, root=document) => root.querySelector(selector);
+  const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
+  const viewRoot = $('#viewRoot');
+  const audio = $('#quranAudio');
+  const audioPlayer = $('#audioPlayer');
+  const toastNode = $('#toast');
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const safeParse = (value, fallback) => { try { return value ? JSON.parse(value) : fallback; } catch { return fallback; } };
+  const getLocal = key => { try { return localStorage.getItem(key); } catch { return null; } };
+  const setLocal = (key, value) => { try { localStorage.setItem(key, value); } catch { /* App remains usable if browser storage is blocked. */ } };
+  const savedPrefs = safeParse(getLocal(STORE_KEY), {});
+  state.prefs = {...defaultPrefs, ...(savedPrefs && typeof savedPrefs === 'object' ? savedPrefs : {})};
+  const savedBookmarks = safeParse(getLocal('quranAdvanceBookmarks'), []);
+  const savedHistory = safeParse(getLocal('quranAdvanceHistory'), []);
+  state.bookmarks = Array.isArray(savedBookmarks) ? savedBookmarks : [];
+  state.history = Array.isArray(savedHistory) ? savedHistory : [];
+  state.lastRead = safeParse(getLocal('quranAdvanceLastRead'), null);
+  document.documentElement.dataset.theme = state.prefs.theme === 'dark' ? 'dark' : 'light';
+  applyPrefs();
+
+  function toast(message) {
+    toastNode.textContent = message;
+    toastNode.classList.add('visible');
+    clearTimeout(state.toastTimer);
+    state.toastTimer = setTimeout(() => toastNode.classList.remove('visible'), 2300);
+  }
+  function applyPrefs() {
+    document.documentElement.dataset.theme = state.prefs.theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.style.setProperty('--arabic-size', `${Number(state.prefs.arabicSize) || defaultPrefs.arabicSize}px`);
+    document.documentElement.style.setProperty('--translation-size', `${Number(state.prefs.translationSize) || defaultPrefs.translationSize}px`);
+    const themeBtn = $('#themeButton');
+    if (themeBtn) { themeBtn.textContent = state.prefs.theme === 'dark' ? '☀' : '☾'; themeBtn.setAttribute('aria-label', state.prefs.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'); }
+    $('#audioSpeed').value = String(state.prefs.playbackSpeed || 1);
+    audio.playbackRate = Number(state.prefs.playbackSpeed || 1);
+    $$('[data-translation]').forEach(node => node.hidden = !state.prefs.showTranslation);
+    updateTranslationVisibility();
+  }
+  function savePrefs() { setLocal(STORE_KEY, JSON.stringify(state.prefs)); applyPrefs(); }
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      if (!('indexedDB' in window)) return reject(new Error('IndexedDB is unavailable'));
+      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = () => { if (!request.result.objectStoreNames.contains(DB_STORE)) request.result.createObjectStore(DB_STORE); };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error('Could not open offline storage'));
+    });
+  }
+  async function readDataset() {
+    try {
+      const db = await openDB();
+      return await new Promise((resolve, reject) => {
+        const req = db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get('full-quran-v1');
+        req.onsuccess = () => { db.close(); resolve(req.result || null); };
+        req.onerror = () => { db.close(); reject(req.error); };
+      });
+    } catch { return null; }
+  }
+  async function saveDataset(dataset) {
+    try {
+      const db = await openDB();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).put(dataset, 'full-quran-v1');
+        tx.oncomplete = resolve; tx.onerror = () => reject(tx.error); tx.onabort = () => reject(tx.error);
+      });
+      db.close();
+      return true;
+    } catch { return false; }
+  }
+  async function fetchJson(url) {
+    const response = await fetch(url, {headers:{Accept:'application/json'}});
+    if (!response.ok) throw new Error(`Data request failed (${response.status})`);
+    const json = await response.json();
+    if (json && json.code && json.code !== 200) throw new Error(json.status || 'Quran API returned an error');
+    if (!json || !json.data) throw new Error('Quran API returned an unexpected response');
+    return json.data;
+  }
+  async function fetchFullQuran() {
+    const [arabicData, translationData] = await Promise.all([
+      fetchJson(`${API}/quran/${ARABIC_EDITION}`),
+      fetchJson(`${API}/quran/${TRANSLATION_EDITION}`)
+    ]);
+    if (!Array.isArray(arabicData.surahs) || !Array.isArray(translationData.surahs)) throw new Error('The Quran data structure was not recognized');
+    const translations = new Map();
+    translationData.surahs.forEach(surah => (surah.ayahs || []).forEach(ayah => translations.set(ayah.number, ayah)));
+    const quran = arabicData.surahs.map(surah => ({
+      number:surah.number, name:surah.name, englishName:surah.englishName,
+      englishNameTranslation:surah.englishNameTranslation || '', revelationType:surah.revelationType || 'Unknown',
+      numberOfAyahs:surah.numberOfAyahs || (surah.ayahs || []).length,
+      ayahs:(surah.ayahs || []).map(ayah => {
+        const translated = translations.get(ayah.number);
+        return {number:ayah.number,numberInSurah:ayah.numberInSurah,text:ayah.text,translation:translated ? translated.text : '',juz:ayah.juz,page:ayah.page,manzil:ayah.manzil,ruku:ayah.ruku,hizbQuarter:ayah.hizbQuarter,sajda:ayah.sajda || false};
+      })
+    }));
+    const count = quran.reduce((sum, surah) => sum + surah.ayahs.length, 0);
+    if (quran.length !== 114 || count < 6200) throw new Error('The downloaded Quran data appears incomplete');
+    return {quran, fetchedAt:Date.now(), source:'AlQuran Cloud', translation:TRANSLATION_EDITION};
+  }
+  function activateDataset(dataset, sample=false) {
+    state.quran = dataset.quran;
+    state.isSample = sample;
+    state.surahByNumber = new Map(state.quran.map(surah => [surah.number, surah]));
+    state.allAyahs = state.quran.flatMap(surah => surah.ayahs.map(ayah => ({...ayah,surahNumber:surah.number,surahName:surah.englishName,surahArabicName:surah.name,revelationType:surah.revelationType})));
+    state.ayahByGlobal = new Map(state.allAyahs.map(ayah => [ayah.number, ayah]));
+    if (!state.surahByNumber.has(state.currentSurahNumber)) state.currentSurahNumber = state.quran[0]?.number || 1;
+    state.currentAyahNumber = 1;
+    if (state.lastRead && state.surahByNumber.has(Number(state.lastRead.surahNumber))) {
+      state.currentSurahNumber = Number(state.lastRead.surahNumber);
+      state.currentAyahNumber = Math.max(1, Number(state.lastRead.ayahNumber) || 1);
+      const surah = state.surahByNumber.get(state.currentSurahNumber);
+      state.currentAyahNumber = Math.min(state.currentAyahNumber, surah.ayahs.length);
+    }
+    const ayah = state.surahByNumber.get(state.currentSurahNumber)?.ayahs.find(a => a.numberInSurah === state.currentAyahNumber);
+    state.currentGlobalNumber = ayah?.number || 1;
+  }
+  async function initialize() {
+    setDataStatus('Loading Quran data');
+    const cached = await readDataset();
+    if (cached && Array.isArray(cached.quran) && cached.quran.length === 114) {
+      activateDataset(cached, false);
+      setDataStatus(navigator.onLine ? 'Offline-ready Quran' : 'Quran loaded offline');
+      renderView(state.currentView);
+      // Refresh the saved copy when a network is available; retain usable cached data on failure.
+      if (navigator.onLine) fetchFullQuran().then(async updated => { await saveDataset(updated); }).catch(() => {});
+      return;
+    }
+    try {
+      const dataset = await fetchFullQuran();
+      activateDataset(dataset, false);
+      const stored = await saveDataset(dataset);
+      setDataStatus(stored ? 'Quran saved for offline use' : 'Quran loaded');
+      renderView(state.currentView);
+    } catch (error) {
+      console.warn('Quran loading:', error);
+      activateDataset({quran:SAMPLE_DATA}, true);
+      setDataStatus('Demo data only');
+      renderView(state.currentView);
+      const note = document.createElement('div');
+      note.className = 'error-panel';
+      note.innerHTML = `<strong>Quran data could not be downloaded</strong><p>This is a small Al-Fatiha demonstration only, not the complete Quran. Connect to the internet and retry to load all 114 surahs. After the first successful download, the complete text will be stored for offline reading.</p><button class="outline-button" type="button" data-action="retry-data">Retry download</button>`;
+      viewRoot.prepend(note);
+    }
+    fillJumpSurahs();
+  }
+  function setDataStatus(label) { $('#dataStatus').textContent = label; }
+  function updateConnection() {
+    const online = navigator.onLine;
+    $('#connectionDot').classList.toggle('offline', !online);
+    $('#connectionLabel').textContent = online ? 'Online' : 'Offline mode';
+  }
+  function updateTranslationVisibility() {
+    $$('.translation-text').forEach(node => node.hidden = !state.prefs.showTranslation);
+    $$('.result-translation').forEach(node => node.hidden = !state.prefs.showTranslation);
+    const label = state.prefs.showTranslation ? 'Hide translation' : 'Show translation';
+    $$('[data-action="toggle-translation"]').forEach(node => { node.textContent = state.prefs.showTranslation ? '文 Hide translation' : '文 Show translation'; node.setAttribute('aria-pressed', String(state.prefs.showTranslation)); node.setAttribute('aria-label', label); });
+  }
+  function bookKey(surahNumber, ayahNumber) { return `${surahNumber}:${ayahNumber}`; }
+  function findAyah(surahNumber, ayahNumber) {
+    return state.surahByNumber.get(Number(surahNumber))?.ayahs.find(ayah => ayah.numberInSurah === Number(ayahNumber)) || null;
+  }
+  function findSurah(surahNumber) { return state.surahByNumber.get(Number(surahNumber)); }
+  function isBookmarked(surahNumber, ayahNumber) { return state.bookmarks.some(item => item.key === bookKey(surahNumber, ayahNumber)); }
+  function saveBookmarks() { setLocal('quranAdvanceBookmarks', JSON.stringify(state.bookmarks)); }
+  function recordLocation(surahNumber, ayahNumber) {
+    const surah = findSurah(surahNumber);
+    const ayah = findAyah(surahNumber, ayahNumber);
+    if (!surah || !ayah) return;
+    state.lastRead = {surahNumber:Number(surahNumber),ayahNumber:Number(ayahNumber),timestamp:Date.now()};
+    setLocal('quranAdvanceLastRead', JSON.stringify(state.lastRead));
+    const key = bookKey(surahNumber, ayahNumber);
+    state.history = state.history.filter(item => item.key !== key);
+    state.history.unshift({key,surahNumber:Number(surahNumber),ayahNumber:Number(ayahNumber),timestamp:Date.now()});
+    state.history = state.history.slice(0,40);
+    setLocal('quranAdvanceHistory', JSON.stringify(state.history));
+  }
+  function toggleBookmark(surahNumber, ayahNumber) {
+    const key = bookKey(surahNumber, ayahNumber);
+    if (isBookmarked(surahNumber, ayahNumber)) {
+      state.bookmarks = state.bookmarks.filter(item => item.key !== key);
+      toast('Bookmark removed');
+    } else {
+      state.bookmarks.unshift({key,surahNumber:Number(surahNumber),ayahNumber:Number(ayahNumber),timestamp:Date.now()});
+      toast('Ayah bookmarked');
+    }
+    state.bookmarks = state.bookmarks.slice(0,1000);
+    saveBookmarks();
+    if (state.currentView === 'reader') refreshBookmarkButtons(surahNumber,ayahNumber);
+    else if (state.currentView === 'bookmarks') renderBookmarks();
+  }
+  function refreshBookmarkButtons(surahNumber, ayahNumber) {
+    const saved = isBookmarked(surahNumber,ayahNumber);
+    $$(`[data-action="bookmark"][data-surah="${Number(surahNumber)}"][data-ayah="${Number(ayahNumber)}"]`).forEach(button => {
+      button.classList.toggle('is-saved',saved); button.textContent = saved ? '★' : '☆'; button.setAttribute('aria-label',saved ? 'Remove bookmark' : 'Bookmark ayah'); button.title = saved ? 'Remove bookmark' : 'Bookmark ayah';
+    });
+    const nav = $('[data-view="bookmarks"]');
+    if (nav) nav.setAttribute('aria-label', `Bookmarks, ${state.bookmarks.length} saved ayahs`);
+  }
+  function formatDate(timestamp) {
+    if (!timestamp) return 'Saved';
+    try { return new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(new Date(timestamp)); } catch { return 'Saved'; }
+  }
+  function buildAyahAIUrl(surah, ayah) {
+    // Keep every text field individually encoded so Arabic punctuation and spaces survive the URL.
+    const surahName = Number(surah.number) === 4 ? 'An-Nisaa' : surah.englishName;
+    return `${AYAH_AI_PAGE}?askAyahAI=1&surah=${encodeURIComponent(surahName)}&surahNumber=${surah.number}&ayahNumber=${ayah.numberInSurah}&arabic=${encodeURIComponent(ayah.text)}&translation=${encodeURIComponent(ayah.translation || '')}`;
+  }
+  function askLink(surah, ayah, compact=false) {
+    const label = compact ? '✦ Ask AyahAI' : '✦ Ask AyahAI';
+    return `<a class="mini-action ask" href="${esc(buildAyahAIUrl(surah,ayah))}" target="_blank" rel="noopener noreferrer" aria-label="Ask AyahAI about ${esc(surah.englishName)} ayah ${ayah.numberInSurah}">${label}</a>`;
+  }
+  function navTo(view) {
+    state.currentView = view;
+    $$('.nav-item').forEach(btn => btn.classList.toggle('active',btn.dataset.view === view));
+    renderView(view);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function renderView(view) {
+    if (!state.quran.length) return;
+    state.currentView = view;
+    $$('.nav-item').forEach(btn => btn.classList.toggle('active',btn.dataset.view === view));
+    if (view === 'reader') renderReader();
+    else if (view === 'surahs') renderSurahs();
+    else if (view === 'bookmarks') renderBookmarks();
+    else if (view === 'settings') renderSettings();
+    updateTranslationVisibility();
+    fillJumpSurahs();
+  }
+  function renderReader() {
+    const surah = findSurah(state.currentSurahNumber) || state.quran[0];
+    if (!surah) return;
+    const bookmarkedCount = state.bookmarks.length;
+    const startAt = Math.min(Math.max(1,state.currentAyahNumber),surah.ayahs.length);
+    const verses = surah.ayahs.map(ayah => {
+      const saved = isBookmarked(surah.number,ayah.numberInSurah);
+      const sajda = ayah.sajda && ayah.sajda !== false ? ' · Sajdah' : '';
+      return `<article class="ayah-card" id="ayah-${ayah.number}" data-global-ayah="${ayah.number}" data-surah="${surah.number}" data-ayah="${ayah.numberInSurah}">
+        <div class="ayah-top"><div class="ayah-number-wrap"><div class="ayah-number-badge">${ayah.numberInSurah}</div><div class="ayah-meta"><strong>${esc(surah.englishName)} · ${ayah.numberInSurah}</strong><span>Juz ${ayah.juz || '—'} · Page ${ayah.page || '—'}${sajda}</span></div></div>
+          <div class="ayah-action-row"><button type="button" class="mini-action" data-action="play-ayah" data-global="${ayah.number}" aria-label="Play ayah ${ayah.numberInSurah}" title="Play recitation">▶</button><button type="button" class="mini-action ${saved?'is-saved':''}" data-action="bookmark" data-surah="${surah.number}" data-ayah="${ayah.numberInSurah}" aria-label="${saved?'Remove bookmark':'Bookmark ayah'}" title="${saved?'Remove bookmark':'Bookmark ayah'}">${saved?'★':'☆'}</button>${askLink(surah,ayah,true)}</div></div>
+        <p class="arabic-text" lang="ar" dir="rtl">${esc(ayah.text)}</p>
+        <p class="translation-text" data-translation>${esc(ayah.translation || 'Translation unavailable for this ayah.')}</p>
+        <div class="ayah-card-actions"><span class="verse-detail">Ayah ${ayah.numberInSurah} of ${surah.numberOfAyahs}</span><div class="ayah-action-row"><button type="button" class="mini-action" data-action="copy-ayah" data-surah="${surah.number}" data-ayah="${ayah.numberInSurah}" aria-label="Copy this ayah">▢ Copy</button><button type="button" class="mini-action" data-action="share-ayah" data-surah="${surah.number}" data-ayah="${ayah.numberInSurah}" aria-label="Share this ayah">↗ Share</button></div></div>
+      </article>`;
+    }).join('');
+    viewRoot.innerHTML = `<div class="view-heading"><div><div class="eyebrow">The Holy Quran</div><h1>Continue your reading</h1><div class="muted small">Your reading place is saved on this device.</div></div><button type="button" class="outline-button" data-action="jump-open">↗ Jump</button></div>
+      ${state.isSample ? '' : ''}
+      <section class="surah-hero" aria-label="Current surah"><div class="hero-top"><div class="hero-number">${surah.number}</div><div class="hero-name"><h1>${esc(surah.englishName)}</h1><p>${esc(surah.englishNameTranslation)} · ${surah.revelationType} · ${surah.numberOfAyahs} ayahs</p></div><button type="button" class="icon-button" style="background:rgba(255,255,255,.12);color:white;border-color:rgba(255,255,255,.25)" data-action="surah-list" aria-label="Browse surahs" title="Browse surahs">☷</button></div><div class="hero-arabic" lang="ar" dir="rtl">${esc(surah.name)}</div><div class="hero-meta"><span>${surah.revelationType}</span><span>${surah.numberOfAyahs} ayahs</span><span>${bookmarkedCount} saved</span></div></section>
+      <div class="reader-tools"><div class="left"><button type="button" class="soft-button" data-action="toggle-translation" aria-pressed="${state.prefs.showTranslation}">文 ${state.prefs.showTranslation?'Hide':'Show'} translation</button><button type="button" class="soft-button" data-action="audio-current">▶ Listen</button></div><div class="right"><button type="button" class="outline-button" data-action="previous-surah" ${surah.number<=1?'disabled':''}>← Previous</button><button type="button" class="outline-button" data-action="next-surah" ${surah.number>=114 || state.isSample?'disabled':''}>Next →</button></div></div>
+      <div class="progress-track" aria-label="Reading position"><span style="width:${(startAt/surah.numberOfAyahs)*100}%"></span></div>
+      <div class="ayah-list">${verses}</div><div class="bottom-space"></div>`;
+    state.observer?.disconnect();
+    if ('IntersectionObserver' in window) {
+      state.observer = new IntersectionObserver(entries => {
+        const candidates = entries.filter(entry => entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
+        if (!candidates.length) return;
+        const card = candidates[0].target;
+        const global = Number(card.dataset.globalAyah);
+        const local = Number(card.dataset.ayah);
+        if (global && global !== state.currentGlobalNumber) {
+          state.currentGlobalNumber = global; state.currentAyahNumber = local;
+          recordLocation(surah.number,local);
+          $$('.ayah-card.in-view').forEach(node=>node.classList.remove('in-view'));
+          card.classList.add('in-view');
+          const track = $('.progress-track span'); if (track) track.style.width = `${(local/surah.numberOfAyahs)*100}%`;
+        }
+      },{root:null,rootMargin:'-18% 0px -65% 0px',threshold:[0,.2,.5]});
+      $$('.ayah-card',viewRoot).forEach(card => state.observer.observe(card));
+    }
+    updatePlayingUI(); updateTranslationVisibility();
+    if (!state.isSample && state.currentView === 'reader') {
+      const last = findAyah(surah.number,startAt);
+      if (last) { state.currentGlobalNumber = last.number; state.currentAyahNumber = last.numberInSurah; }
+    }
+  }
+  function renderSurahs(searchValue='', revelation='all') {
+    const query = String(searchValue || '');
+    const filtered = state.quran.filter(surah => {
+      const matches = `${surah.number} ${surah.englishName} ${surah.englishNameTranslation} ${surah.name}`.toLowerCase().includes(query.toLowerCase());
+      const rev = revelation === 'all' || surah.revelationType.toLowerCase() === revelation;
+      return matches && rev;
+    });
+    const recent = [...new Set(state.history.map(item=>item.surahNumber))].slice(0,6).map(findSurah).filter(Boolean);
+    const recentBlock = recent.length ? `<div class="section-label">Recently read <span class="muted small">${recent.length} surahs</span></div><div class="surah-list">${recent.map(surahItemHtml).join('')}</div>` : '';
+    viewRoot.innerHTML = `<div class="view-heading"><div><div class="eyebrow">Browse the Quran</div><h1>Surahs</h1><div class="muted small">${state.isSample?'Demo subset':'All 114 chapters'} · Find a surah by name or number.</div></div><button type="button" class="outline-button" data-action="jump-open">↗ Jump</button></div>
+      ${recentBlock}<div class="surah-tools"><label class="sr-only" for="surahSearch">Search surahs</label><input id="surahSearch" data-surah-filter placeholder="Search surah, Arabic name, or number" value="${esc(query)}"><label class="sr-only" for="revelationFilter">Revelation place</label><select id="revelationFilter" data-revelation-filter><option value="all" ${revelation==='all'?'selected':''}>All places</option><option value="meccan" ${revelation==='meccan'?'selected':''}>Meccan</option><option value="medinan" ${revelation==='medinan'?'selected':''}>Medinan</option></select></div>
+      <div class="section-label">Chapter list <span class="muted small">${filtered.length} found</span></div><div class="surah-list" id="surahList">${filtered.length?filtered.map(surahItemHtml).join(''):'<div class="empty-state">No surahs matched your search.</div>'}</div>`;
+    updateTranslationVisibility();
+  }
+  function surahItemHtml(surah) {
+    return `<button type="button" class="surah-item" data-action="open-surah" data-surah="${surah.number}"><span class="surah-num">${surah.number}</span><span class="surah-name"><strong>${esc(surah.englishName)} <span class="muted" style="font-weight:400">· ${esc(surah.englishNameTranslation)}</span></strong><span>${surah.revelationType} · ${surah.numberOfAyahs} ayahs</span></span><span class="surah-arabic" lang="ar" dir="rtl">${esc(surah.name)}</span></button>`;
+  }
+  function renderBookmarks() {
+    const savedItems = state.bookmarks.map(item => ({item,surah:findSurah(item.surahNumber),ayah:findAyah(item.surahNumber,item.ayahNumber)})).filter(x=>x.surah&&x.ayah).sort((a,b)=>b.item.timestamp-a.item.timestamp);
+    const historyItems = state.history.map(item=>({item,surah:findSurah(item.surahNumber),ayah:findAyah(item.surahNumber,item.ayahNumber)})).filter(x=>x.surah&&x.ayah).slice(0,18);
+    const savedHtml = savedItems.length ? savedItems.map(({item,surah,ayah})=>`<button class="saved-item" type="button" data-action="go-ayah" data-surah="${surah.number}" data-ayah="${ayah.numberInSurah}"><span class="surah-num">${surah.number}:${ayah.numberInSurah}</span><span class="surah-name"><strong>${esc(surah.englishName)} · Ayah ${ayah.numberInSurah}</strong><span>${esc(ayah.translation||'Translation unavailable')}</span><span>${formatDate(item.timestamp)}</span></span><span class="surah-arabic" lang="ar">★</span></button>`).join('') : `<div class="empty-state"><div class="empty-icon">☆</div><h2>No bookmarks yet</h2><p>Tap the star beside an ayah while reading to save it here.</p><p style="margin-top:12px"><button type="button" class="outline-button" data-action="back-to-read">Start reading</button></p></div>`;
+    const histHtml = historyItems.length ? historyItems.map(({item,surah,ayah})=>`<button class="history-item" type="button" data-action="go-ayah" data-surah="${surah.number}" data-ayah="${ayah.numberInSurah}"><span class="surah-num">${surah.number}:${ayah.numberInSurah}</span><span class="surah-name"><strong>${esc(surah.englishName)} · Ayah ${ayah.numberInSurah}</strong><span>${formatDate(item.timestamp)}</span></span><span class="muted">→</span></button>`).join('') : '<div class="empty-state"><h2>No reading history yet</h2><p>As you read, your recent places will appear here.</p></div>';
+    viewRoot.innerHTML = `<div class="view-heading"><div><div class="eyebrow">Your personal library</div><h1>Saved & history</h1><div class="muted small">Bookmarks and reading places stay on this device.</div></div><span class="status-pill">${state.bookmarks.length} bookmarks</span></div><div class="section-label">Bookmarked ayahs <span class="muted small">${savedItems.length}</span></div><div class="saved-list">${savedHtml}</div><div class="section-label">Reading history <button type="button" class="text-button" data-action="clear-history">Clear history</button></div><div class="history-list">${histHtml}</div>`;
+  }
+  function renderSettings() {
+    viewRoot.innerHTML = `<div class="view-heading"><div><div class="eyebrow">Make it yours</div><h1>Settings</h1><div class="muted small">Your preferences are saved on this device.</div></div></div>
+      <section class="setting-card"><div class="setting-head"><div><strong>Appearance</strong><span>Choose comfortable reading colors.</span></div><button type="button" class="soft-button" data-action="toggle-theme">${state.prefs.theme==='dark'?'☀ Light mode':'☾ Dark mode'}</button></div></section>
+      <section class="setting-card"><div class="setting-head"><div><strong>Arabic text size</strong><span>Adjust the Uthmani Quran text.</span></div><strong id="arabicSizeLabel">${state.prefs.arabicSize}px</strong></div><input type="range" min="24" max="48" step="1" value="${state.prefs.arabicSize}" data-setting="arabicSize" aria-label="Arabic text size"><div class="setting-footer"><span>Smaller</span><span>Larger</span></div></section>
+      <section class="setting-card"><div class="setting-head"><div><strong>Translation text size</strong><span>Adjust English translation readability.</span></div><strong id="translationSizeLabel">${state.prefs.translationSize}px</strong></div><input type="range" min="13" max="24" step="1" value="${state.prefs.translationSize}" data-setting="translationSize" aria-label="Translation text size"><div class="setting-footer"><span>Smaller</span><span>Larger</span></div></section>
+      <section class="setting-card"><div class="setting-head"><div><strong>English translation</strong><span>Show or hide the translation beneath ayahs.</span></div><input type="checkbox" data-setting="showTranslation" ${state.prefs.showTranslation?'checked':''} aria-label="Show English translation"></div></section>
+      <section class="setting-card"><div class="setting-head"><div><strong>Recitation speed</strong><span>Default speed for Mishary Alafasy audio.</span></div><select id="settingsAudioSpeed" class="audio-speed" data-setting="playbackSpeed" aria-label="Default playback speed"><option value="0.75" ${state.prefs.playbackSpeed==.75?'selected':''}>0.75×</option><option value="1" ${state.prefs.playbackSpeed==1?'selected':''}>1×</option><option value="1.25" ${state.prefs.playbackSpeed==1.25?'selected':''}>1.25×</option><option value="1.5" ${state.prefs.playbackSpeed==1.5?'selected':''}>1.5×</option><option value="2" ${state.prefs.playbackSpeed==2?'selected':''}>2×</option></select></div></section>
+      <section class="setting-card"><div class="setting-head"><div><strong>Offline reading</strong><span>${state.isSample?'Demo data only — download Quran data while online.':'Quran data '+(navigator.onLine?'is available for offline use after it has been saved.':'is loaded from local storage.')}</span></div><span aria-hidden="true">⌁</span></div><div class="setting-buttons"><button type="button" class="outline-button" data-action="retry-data">↻ Refresh Quran data</button><button type="button" class="outline-button" data-action="install-app" id="installButton">＋ Install app</button></div></section>
+      <section class="setting-card"><div class="setting-head"><div><strong>Privacy</strong><span>No account, ads, analytics, or tracking. Bookmarks and preferences remain in your browser. Quran data comes from AlQuran Cloud when online.</span></div><span aria-hidden="true">⌑</span></div><div class="setting-buttons"><button type="button" class="text-button" data-action="reset-prefs">Reset preferences</button><button type="button" class="text-button" data-action="clear-all-local">Clear bookmarks & history</button></div></section>
+      <section class="setting-card"><strong style="font-size:.9rem">About Quran Advance</strong><p class="muted small" style="margin-bottom:0">Arabic text: ${ARABIC_EDITION}. English translation: Saheeh International (${TRANSLATION_EDITION}). Recitation: Mishary Rashid Alafasy. See <a href="./readme.md" target="_blank" rel="noopener noreferrer">README and credits</a>.</p></section>`;
+  }
+  function renderSearchResults(query) {
+    const normalized = query.trim().toLocaleLowerCase();
+    if (!normalized) { renderReader(); return; }
+    const surahMatches = state.quran.filter(s => `${s.number} ${s.englishName} ${s.englishNameTranslation} ${s.name}`.toLocaleLowerCase().includes(normalized)).slice(0,8);
+    const ayahMatches = state.allAyahs.filter(a => `${a.text} ${a.translation} ${a.surahName} ${a.surahArabicName} ${a.surahNumber}:${a.numberInSurah}`.toLocaleLowerCase().includes(normalized)).slice(0,100);
+    const surahSection = surahMatches.length ? `<div class="section-label">Matching surahs <span class="muted small">${surahMatches.length}</span></div><div class="surah-list">${surahMatches.map(surahItemHtml).join('')}</div>` : '';
+    const ayahSection = ayahMatches.length ? `<div class="section-label">Matching ayahs <span class="muted small">${ayahMatches.length}${ayahMatches.length===100?'+':''}</span></div><div class="result-list">${ayahMatches.map(ayah=>`<button type="button" class="result-item" data-action="go-ayah" data-surah="${ayah.surahNumber}" data-ayah="${ayah.numberInSurah}"><div class="result-head"><strong>${esc(ayah.surahName)} · ${ayah.surahNumber}:${ayah.numberInSurah}</strong><span>Open →</span></div><div class="result-arabic" lang="ar" dir="rtl">${esc(ayah.text)}</div><div class="result-translation" data-translation>${esc(ayah.translation||'Translation unavailable')}</div></button>`).join('')}</div>` : '';
+    viewRoot.innerHTML = `<div class="view-heading"><div><div class="eyebrow">Search the Quran</div><h1>Search results</h1><div class="muted small">${esc(query)} · ${ayahMatches.length} ayah matches shown</div></div><button type="button" class="text-button" data-action="clear-search">Clear ×</button></div>${surahSection}${ayahSection}${!surahMatches.length&&!ayahMatches.length?'<div class="empty-state"><div class="empty-icon">⌕</div><h2>No results found</h2><p>Try a different English word, Arabic phrase, surah name, or number.</p></div>':''}`;
+    updateTranslationVisibility();
+  }
+  function fillJumpSurahs() {
+    const select = $('#jumpSurah'); if (!select || !state.quran.length) return;
+    const currentValue = select.value || String(state.currentSurahNumber);
+    select.innerHTML = state.quran.map(s => `<option value="${s.number}">${s.number}. ${esc(s.englishName)} — ${esc(s.name)}</option>`).join('');
+    select.value = state.surahByNumber.has(Number(currentValue)) ? currentValue : String(state.currentSurahNumber);
+    updateJumpAyahLimit();
+  }
+  function updateJumpAyahLimit() {
+    const surah = findSurah(Number($('#jumpSurah').value || state.currentSurahNumber));
+    const input = $('#jumpAyah'); if (!input || !surah) return;
+    input.max = String(surah.numberOfAyahs); input.value = String(Math.min(Number(input.value)||1,surah.numberOfAyahs));
+  }
+  function openJumpModal() {
+    fillJumpSurahs(); $('#jumpModal').hidden = false; $('#jumpAyah').value = String(state.currentAyahNumber || 1); updateJumpAyahLimit(); $('#jumpSurah').focus();
+  }
+  function closeJumpModal() { $('#jumpModal').hidden = true; }
+  function openSurah(surahNumber, ayahNumber=1, opts={}) {
+    const surah = findSurah(Number(surahNumber)); if (!surah) { toast('That surah is not available in the current data.'); return; }
+    state.currentSurahNumber = surah.number;
+    state.currentAyahNumber = Math.max(1,Math.min(Number(ayahNumber)||1,surah.ayahs.length));
+    const ayah = findAyah(surah.number,state.currentAyahNumber);
+    state.currentGlobalNumber = ayah?.number || surah.ayahs[0]?.number || 1;
+    recordLocation(surah.number,state.currentAyahNumber);
+    closeJumpModal();
+    state.currentView = 'reader';
+    $$('.nav-item').forEach(btn => btn.classList.toggle('active',btn.dataset.view==='reader'));
+    renderReader();
+    requestAnimationFrame(() => { const card = $(`#ayah-${state.currentGlobalNumber}`); if (card) { card.scrollIntoView({behavior:'smooth',block:'start'}); card.classList.add('in-view'); } });
+    if (opts.play) playGlobalAyah(state.currentGlobalNumber);
+  }
+  function getCurrentSurahAyah() { return findAyah(state.currentSurahNumber,state.currentAyahNumber) || state.ayahByGlobal.get(state.currentGlobalNumber); }
+  function getAyahText(surahNumber, ayahNumber) {
+    const surah = findSurah(surahNumber), ayah = findAyah(surahNumber,ayahNumber);
+    if (!surah || !ayah) return '';
+    return `${surah.englishName} ${surah.number}:${ayah.numberInSurah}\n${ayah.text}\n${ayah.translation || ''}`.trim();
+  }
+  async function copyAyah(surahNumber, ayahNumber) {
+    const text = getAyahText(surahNumber,ayahNumber); if (!text) return;
+    try {
+      if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+      else { const area=document.createElement('textarea'); area.value=text; area.style.position='fixed'; area.style.opacity='0'; document.body.appendChild(area); area.select(); const ok=document.execCommand('copy'); area.remove(); if(!ok) throw new Error('Copy unavailable'); }
+      toast('Ayah copied');
+    } catch { toast('Copy is not available in this browser'); }
+  }
+  async function shareAyah(surahNumber, ayahNumber) {
+    const text = getAyahText(surahNumber,ayahNumber); if (!text) return;
+    if (navigator.share) {
+      try { await navigator.share({title:'Quran Advance — Ayah',text}); } catch (error) { if (error.name !== 'AbortError') toast('Sharing could not be opened'); }
+    } else { await copyAyah(surahNumber,ayahNumber); toast('Sharing is unsupported; copied instead'); }
+  }
+  function playGlobalAyah(globalNumber) {
+    const ayah = state.ayahByGlobal.get(Number(globalNumber)); if (!ayah) { toast('Recitation is unavailable in demo mode'); return; }
+    if (state.isSample) { toast('Connect to the internet to load the complete Quran and audio.'); return; }
+    const targetAudioUrl = `${AUDIO_BASE}${ayah.number}.mp3`;
+    const changed = audio.src !== targetAudioUrl;
+    const surah = findSurah(ayah.surahNumber);
+    if (state.currentSurahNumber !== ayah.surahNumber) {
+      state.currentSurahNumber = ayah.surahNumber; state.currentAyahNumber = ayah.numberInSurah;
+      state.currentGlobalNumber = ayah.number; recordLocation(ayah.surahNumber,ayah.numberInSurah); renderView('reader');
+    } else {
+      state.currentAyahNumber = ayah.numberInSurah; state.currentGlobalNumber = ayah.number;
+      const card = $(`#ayah-${ayah.number}`); if (card) card.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    state.playingGlobalNumber = ayah.number;
+    if (changed) audio.src = targetAudioUrl;
+    audio.playbackRate = Number(state.prefs.playbackSpeed || 1);
+    audioPlayer.hidden = false;
+    $('#audioTitle').textContent = `${surah.englishName} · Ayah ${ayah.numberInSurah}`;
+    $('#audioSubtitle').textContent = 'Mishary Rashid Alafasy';
+    updatePlayingUI();
+    audio.play().then(() => {state.isPlaying=true;updatePlayingUI();}).catch(() => {state.isPlaying=false;updatePlayingUI();toast('Audio could not start. Check your connection and try again.');});
+  }
+  function updatePlayingUI() {
+    $$('.ayah-card.playing').forEach(node=>node.classList.remove('playing'));
+    if (state.isPlaying) { const current = $(`.ayah-card[data-global-ayah="${state.playingGlobalNumber || state.currentGlobalNumber}"]`); if (current) current.classList.add('playing'); }
+    const playBtn = $('#audioPlayButton');
+    if (playBtn) { playBtn.textContent = state.isPlaying ? 'Ⅱ' : '▶'; playBtn.setAttribute('aria-label',state.isPlaying?'Pause recitation':'Resume recitation'); }
+    const repeat = $('#repeatButton'); if (repeat) { repeat.style.color = state.repeatAyah ? 'var(--green)' : 'var(--muted)'; repeat.style.borderColor = state.repeatAyah ? 'var(--green)' : 'var(--line)'; repeat.setAttribute('aria-pressed',String(state.repeatAyah)); }
+  }
+  function navigateGlobal(delta, shouldPlay=true) {
+    const total = state.allAyahs.length;
+    const playbackBase = state.playingGlobalNumber && audio.src ? state.playingGlobalNumber : state.currentGlobalNumber;
+    const nextNumber = Number(playbackBase) + delta;
+    if (nextNumber < 1 || nextNumber > total) { toast('You have reached the beginning or end of the Quran.'); return; }
+    const next = state.ayahByGlobal.get(nextNumber); if (!next) return;
+    openSurah(next.surahNumber,next.numberInSurah);
+    if (shouldPlay) playGlobalAyah(nextNumber);
+  }
+  function startAudioAtCurrent() { const ayah = getCurrentSurahAyah(); if (ayah) playGlobalAyah(ayah.number); }
+  function retryData() {
+    if (!navigator.onLine) { toast('You are offline. Connect to the internet and retry.'); return; }
+    setDataStatus('Refreshing Quran data');
+    fetchFullQuran().then(async dataset => {
+      await saveDataset(dataset); activateDataset(dataset,false); setDataStatus('Quran saved for offline use'); renderView(state.currentView); toast('Quran data refreshed');
+    }).catch(error => { console.warn(error); setDataStatus(state.isSample?'Demo data only':'Using saved Quran data'); toast('Could not refresh Quran data.'); });
+  }
+  function installApp() {
+    if (state.installPrompt) {
+      state.installPrompt.prompt(); state.installPrompt.userChoice.then(choice=>{ if (choice.outcome==='accepted') toast('App installation started'); state.installPrompt=null; }).catch(()=>toast('Use your browser menu to install this app.'));
+    } else toast('Use your browser menu and choose “Install app” or “Add to Home screen”.');
+  }
+  function clearHistory() { state.history=[]; setLocal('quranAdvanceHistory','[]'); renderView(state.currentView); toast('Reading history cleared'); }
+
+  document.addEventListener('click', async event => {
+    const button = event.target.closest('[data-action]');
+    if (button) {
+      const action = button.dataset.action;
+      if (action === 'toggle-theme') { state.prefs.theme=state.prefs.theme==='dark'?'light':'dark'; savePrefs(); if(state.currentView==='settings') renderSettings(); }
+      else if (action === 'jump-open') openJumpModal();
+      else if (action === 'jump-close') closeJumpModal();
+      else if (action === 'toggle-translation') { state.prefs.showTranslation=!state.prefs.showTranslation; savePrefs(); updateTranslationVisibility(); if(state.currentView==='settings') renderSettings(); }
+      else if (action === 'open-surah') openSurah(Number(button.dataset.surah),1);
+      else if (action === 'go-ayah') openSurah(Number(button.dataset.surah),Number(button.dataset.ayah));
+      else if (action === 'bookmark') toggleBookmark(Number(button.dataset.surah),Number(button.dataset.ayah));
+      else if (action === 'copy-ayah') await copyAyah(Number(button.dataset.surah),Number(button.dataset.ayah));
+      else if (action === 'share-ayah') await shareAyah(Number(button.dataset.surah),Number(button.dataset.ayah));
+      else if (action === 'play-ayah') playGlobalAyah(Number(button.dataset.global));
+      else if (action === 'audio-current') startAudioAtCurrent();
+      else if (action === 'audio-prev') navigateGlobal(-1,true);
+      else if (action === 'audio-next') navigateGlobal(1,true);
+      else if (action === 'audio-toggle') { if (audio.paused) { if (!audio.src) startAudioAtCurrent(); else audio.play().then(()=>{state.isPlaying=true;updatePlayingUI();}).catch(()=>toast('Audio could not start')); } else audio.pause(); }
+      else if (action === 'audio-repeat') { state.repeatAyah=!state.repeatAyah; updatePlayingUI(); toast(state.repeatAyah?'Repeat ayah enabled':'Repeat ayah disabled'); }
+      else if (action === 'surah-list') navTo('surahs');
+      else if (action === 'previous-surah') { if(state.currentSurahNumber>1) openSurah(state.currentSurahNumber-1,1); }
+      else if (action === 'next-surah') { if(state.currentSurahNumber<114) openSurah(state.currentSurahNumber+1,1); }
+      else if (action === 'retry-data') retryData();
+      else if (action === 'install-app') installApp();
+      else if (action === 'clear-history') clearHistory();
+      else if (action === 'back-to-read') navTo('reader');
+      else if (action === 'clear-search') { $('#globalSearch').value=''; navTo('reader'); }
+      else if (action === 'reset-prefs') { state.prefs={...defaultPrefs}; savePrefs(); renderSettings(); toast('Preferences reset'); }
+      else if (action === 'clear-all-local') { if(window.confirm('Clear all bookmarks and reading history from this device?')) { state.bookmarks=[];state.history=[];saveBookmarks();setLocal('quranAdvanceHistory','[]');renderSettings();toast('Bookmarks and history cleared'); } }
+      return;
+    }
+    const nav = event.target.closest('[data-view]');
+    if (nav) navTo(nav.dataset.view);
+  });
+  $('#globalSearchForm').addEventListener('submit',event=>{event.preventDefault();const q=$('#globalSearch').value.trim();if(q){state.currentView='search';$$('.nav-item').forEach(btn=>btn.classList.remove('active'));renderSearchResults(q);window.scrollTo({top:0,behavior:'smooth'});}else toast('Enter a word, ayah, or surah to search.');});
+  $('#jumpForm').addEventListener('submit',event=>{event.preventDefault();openSurah(Number($('#jumpSurah').value),Number($('#jumpAyah').value));});
+  $('#jumpSurah').addEventListener('change',updateJumpAyahLimit);
+  $('#audioSpeed').addEventListener('change',event=>{state.prefs.playbackSpeed=Number(event.target.value);savePrefs();});
+  $('#settingsAudioSpeed').addEventListener('change',event=>{state.prefs.playbackSpeed=Number(event.target.value);savePrefs();audio.playbackRate=state.prefs.playbackSpeed;});
+  viewRoot.addEventListener('input',event=>{
+    const target=event.target;
+    if (target.matches('[data-surah-filter]')) {
+      const search = target.value, rev = $('[data-revelation-filter]')?.value || 'all';
+      const selection = target.selectionStart;
+      renderSurahs(search,rev);
+      const newInput=$('[data-surah-filter]'); if(newInput){newInput.focus();newInput.setSelectionRange(selection,selection);}
+    } else if (target.matches('[data-setting]')) {
+      const setting=target.dataset.setting;
+      if (setting==='arabicSize'||setting==='translationSize') {
+        state.prefs[setting]=Number(target.value);savePrefs();
+        const label=$(`#${setting==='arabicSize'?'arabicSizeLabel':'translationSizeLabel'}`);if(label)label.textContent=`${target.value}px`;
+        if(state.currentView==='reader') { target.style.accentColor='var(--green)'; }
+      } else if (setting==='showTranslation') { state.prefs.showTranslation=target.checked;savePrefs();updateTranslationVisibility(); }
+      else if (setting==='playbackSpeed') { state.prefs.playbackSpeed=Number(target.value);savePrefs();audio.playbackRate=state.prefs.playbackSpeed; }
+    }
+  });
+  viewRoot.addEventListener('change',event=>{
+    const target=event.target;
+    if (target.matches('[data-revelation-filter]')) renderSurahs($('[data-surah-filter]')?.value||'',target.value);
+    if (target.matches('[data-setting="showTranslation"]')) { state.prefs.showTranslation=target.checked;savePrefs();updateTranslationVisibility(); }
+  });
+  audio.addEventListener('play',()=>{state.isPlaying=true;audioPlayer.hidden=false;updatePlayingUI();});
+  audio.addEventListener('pause',()=>{state.isPlaying=false;updatePlayingUI();});
+  audio.addEventListener('ended',()=>{if(state.repeatAyah){audio.currentTime=0;audio.play().catch(()=>{});}else navigateGlobal(1,true);});
+  audio.addEventListener('error',()=>{state.isPlaying=false;updatePlayingUI();if(!audioPlayer.hidden)toast('Recitation unavailable. Check your connection and try again.');});
+  window.addEventListener('online',()=>{updateConnection();if(state.isSample) setDataStatus('Demo data only');else setDataStatus('Online · Quran cached');});
+  window.addEventListener('offline',()=>{updateConnection();setDataStatus(state.isSample?'Demo data only':'Quran loaded offline');});
+  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();state.installPrompt=event;const button=$('#installButton');if(button)button.textContent='＋ Install app';});
+  window.addEventListener('appinstalled',()=>{state.installPrompt=null;toast('Quran Advance installed');});
+  document.addEventListener('keydown',event=>{
+    if(event.key==='Escape'&&!$('#jumpModal').hidden){closeJumpModal();return;}
+    const target=event.target;
+    const typing=target.matches('input,textarea,select,[contenteditable="true"]');
+    if(event.key==='/'&&!typing){event.preventDefault();$('#globalSearch').focus();}
+    else if(event.key.toLowerCase()==='t'&&!typing){state.prefs.theme=state.prefs.theme==='dark'?'light':'dark';savePrefs();if(state.currentView==='settings')renderSettings();}
+    else if(event.key.toLowerCase()==='b'&&!typing){const ayah=state.ayahByGlobal.get(state.currentGlobalNumber);if(ayah)toggleBookmark(ayah.surahNumber,ayah.numberInSurah);}
+  });
+  updateConnection();
+  if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1')) {
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(()=>{}).catch(error=>console.warn('Service worker registration failed',error)));
+  }
+  initialize();
+})();
+</script>
+</body>
+</html>

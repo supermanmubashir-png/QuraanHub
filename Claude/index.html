@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quran Advance</title>
+<meta name="description" content="Quran Advance: read, search, listen and reflect. Works offline.">
+<meta name="theme-color" content="#0f6b52">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f6b52'/%3E%3Cpath d='M32 14 14 20v26l18-6 18 6V20z' fill='none' stroke='%23d9b55e' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f6f2;--card:#fff;--ink:#12231c;--mute:#5b6b63;--line:#d9e2dc;--acc:#0f6b52;--on:#fff;--gold:#9a7424;--hl:#e3f3ea;--ar:34px;--tr:16px}
+[data-theme=dark]{--bg:#0c1512;--card:#13211c;--ink:#e6efe9;--mute:#97aaa0;--line:#244036;--acc:#5cc9a3;--on:#08150f;--gold:#d9b55e;--hl:#173a2e}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font:16px/1.5 Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+header{position:sticky;top:0;z-index:20;background:var(--acc);color:var(--on);display:flex;align-items:center;gap:8px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top))}
+header h1{font-size:19px;font-weight:700;flex:1}
+.ib{min-width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:18px;padding:0 8px}
+header .ib{color:var(--on)}header .ib:hover{background:#ffffff26}
+main{max-width:760px;margin:0 auto;padding:14px}
+#off{background:#b3541e;color:#fff;text-align:center;font-size:14px;padding:4px}
+.ask{display:inline-flex;align-items:center;gap:4px;background:var(--gold);color:#fff;border-radius:999px;padding:4px 11px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+[data-theme=dark] .ask{color:#1b1500}
+#fab{position:fixed;right:14px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:25;padding:11px 16px;font-size:15px;box-shadow:0 4px 14px #0004}
+body.aud #fab{bottom:calc(146px + env(safe-area-inset-bottom))}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;padding:9px 0;font-size:12px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:1px}
+nav button span{font-size:20px}nav [aria-current=page]{color:var(--acc);font-weight:700}
+#bar{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom));z-index:28;background:var(--card);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:4px;padding:6px;flex-wrap:wrap}
+#bar .t{font-size:13px;color:var(--mute);width:100%;text-align:center}
+.ib.on{background:var(--hl);color:var(--acc)}
+input[type=search],input[type=number]{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.chips{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 14px;font-size:14px;background:var(--card)}
+.chip[aria-pressed=true]{background:var(--acc);color:var(--on);border-color:var(--acc)}
+.row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:8px}
+.row .n{min-width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;font-size:14px;font-weight:600;color:var(--gold)}
+.row .m{flex:1}.row small{color:var(--mute)}
+.row .a{font:24px 'Amiri Quran',serif;direction:rtl}
+.cont{background:var(--acc);color:var(--on);border-color:var(--acc)}.cont small{color:inherit;opacity:.85}
+.sh{margin:16px 0 8px;font-size:15px;color:var(--mute);font-weight:600}
+.sk{height:62px;border-radius:12px;margin-bottom:8px;background:linear-gradient(90deg,var(--line),var(--card),var(--line));background-size:200% 100%;animation:s 1.2s infinite}
+@keyframes s{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+.sur{text-align:center;padding:18px 8px 6px}
+.sur .a{font:48px 'Amiri Quran',serif;color:var(--acc)}
+.sur p{color:var(--mute)}
+.bis{font:calc(var(--ar) * .9) 'Amiri Quran',serif;text-align:center;direction:rtl;margin:10px 0 18px}
+.ay{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px;scroll-margin-top:70px}
+.ay.playing{background:var(--hl);border-color:var(--acc)}
+.ay .top{display:flex;align-items:center;gap:2px;flex-wrap:wrap;margin-bottom:6px}
+.ay .no{font-weight:700;color:var(--gold);margin-right:auto;font-size:14px}
+.ay .top .ib{min-width:36px;height:36px;font-size:17px}
+.arb{font:var(--ar)/2.1 'Amiri Quran','Scheherazade New',serif;direction:rtl;text-align:right}
+.trn{font-size:var(--tr);line-height:1.6;color:var(--mute);margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}
+.noTr .trn{display:none}
+.ctl{display:flex;gap:6px;margin-bottom:12px}.ctl button{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--card)}
+.set{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.set label{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.set input[type=range]{width:55%;accent-color:var(--acc)}
+.btn{border:1px solid var(--acc);color:var(--acc);border-radius:10px;padding:8px 14px;margin:4px 6px 4px 0}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);padding:18px;max-width:340px;width:90%}
+dialog::backdrop{background:#0008}
+#toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:14px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+.empty{text-align:center;color:var(--mute);padding:30px 10px}
+.err{background:var(--card);border:1px solid #b3541e;border-radius:12px;padding:16px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>Quran Advance</h1>
+  <button class="ib" id="inst" hidden aria-label="Install app">⬇</button>
+  <button class="ib" id="thm" aria-label="Toggle dark or light theme">◐</button>
+</header>
+<div id="off" hidden role="status">You are offline. Saved data is still available.</div>
+<main>
+  <section id="v-home" aria-label="Surahs">
+    <input type="search" id="q" placeholder="Search surah, number (2:255), Arabic or translation" aria-label="Search">
+    <div class="chips" id="flt" role="group" aria-label="Filter by revelation place">
+      <button class="chip" data-f="" aria-pressed="true">All</button>
+      <button class="chip" data-f="Meccan" aria-pressed="false">Meccan</button>
+      <button class="chip" data-f="Medinan" aria-pressed="false">Medinan</button>
+    </div>
+    <div id="list"></div>
+  </section>
+  <section id="v-read" hidden aria-label="Reader"></section>
+  <section id="v-bm" hidden aria-label="Bookmarks"></section>
+  <section id="v-hist" hidden aria-label="Reading history"></section>
+  <section id="v-set" hidden aria-label="Settings">
+    <div class="set"><label>Arabic font size <input type="range" id="sAr" min="22" max="60" aria-label="Arabic font size"></label>
+      <label>Translation font size <input type="range" id="sTr" min="12" max="28" aria-label="Translation font size"></label>
+      <label>Show translation <input type="checkbox" id="sShow" aria-label="Show translation"></label>
+      <label>Dark mode <input type="checkbox" id="sDark" aria-label="Dark mode"></label></div>
+    <div class="set"><button class="btn" id="sInst" hidden>Install app</button><button class="btn" id="sClr">Clear bookmarks and history</button>
+      <p style="color:var(--mute);font-size:14px;margin-top:8px">Shortcuts: / search, b bookmark current ayah, t theme, Esc close dialogs.<br>Text: Tanzil Uthmani, Saheeh International. Audio: Mishary Alafasy via islamic.network. Data: alquran.cloud. No ads, no trackers.</p></div>
+  </section>
+</main>
+
+<a class="ask" id="fab" href="https://supermanmubashir-png.github.io/AyahAI" target="_blank" rel="noopener noreferrer" aria-label="Ask AyahAI (opens in a new tab)">✦ Ask AyahAI</a>
+
+<div id="bar" hidden>
+  <div class="t" id="bt"></div>
+  <button class="ib" data-act="prev" aria-label="Previous ayah">⏮</button>
+  <button class="ib" data-act="pp" id="pp" aria-label="Play or pause">▶</button>
+  <button class="ib" data-act="next" aria-label="Next ayah">⏭</button>
+  <button class="ib" data-act="rep" id="rp" aria-label="Repeat ayah" aria-pressed="false">🔁</button>
+  <button class="ib" data-act="spd" id="sp" aria-label="Playback speed">1×</button>
+  <button class="ib" data-act="stop" aria-label="Close player">✕</button>
+</div>
+
+<nav aria-label="Main">
+  <button data-v="home" aria-current="page"><span>☰</span>Surahs</button>
+  <button data-v="bm"><span>★</span>Saved</button>
+  <button data-v="hist"><span>↺</span>History</button>
+  <button data-v="set"><span>⚙</span>Settings</button>
+</nav>
+
+<dialog id="jm" aria-label="Go to ayah">
+  <form method="dialog"><label for="jn">Go to ayah (1 to <span id="jmax"></span>)</label>
+    <input type="number" id="jn" min="1" style="margin:10px 0"><button class="btn" value="go" id="jgo">Go</button><button class="btn" value="x">Cancel</button></form>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const API='https://api.alquran.cloud/v1/quran/',AI='https://supermanmubashir-png.github.io/AyahAI';
+const D={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',ar:34,tr:16,show:true,bm:[],hist:[],last:null};
+try{Object.assign(D,JSON.parse(localStorage.getItem('qa')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('qa',JSON.stringify(D))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g,'').replace(/[ٱأإآ]/g,'ا').replace(/ى/g,'ي');
+const AR=n=>String(n).replace(/\d/g,d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+let Q=null,view='home',cur=0,flt='',obs=null;
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2200)}
+function apply(){document.documentElement.dataset.theme=D.theme;const r=document.documentElement.style;r.setProperty('--ar',D.ar+'px');r.setProperty('--tr',D.tr+'px');
+  document.querySelector('meta[name=theme-color]').content=D.theme==='dark'?'#0c1512':'#0f6b52';
+  $('#sAr').value=D.ar;$('#sTr').value=D.tr;$('#sShow').checked=D.show;$('#sDark').checked=D.theme==='dark';
+  const rd=$('#v-read');rd.classList.toggle('noTr',!D.show)}
+function nav(v){view=v;['home','read','bm','hist','set'].forEach(x=>$('#v-'+x).hidden=x!==v);
+  $$('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===v||(v==='read'&&b.dataset.v==='home')?'page':'false'));
+  if(v==='bm')rBm();if(v==='hist')rHist();if(v==='home')rList();scrollTo(0,0)}
+
+async function load(){
+  $('#list').innerHTML='<div class="sk"></div>'.repeat(10);
+  try{
+    const [a,e]=await Promise.all([API+'quran-uthmani',API+'en.sahih'].map(u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.json()})));
+    Q=a.data.surahs.map((s,i)=>({n:s.number,ar:s.name.replace(/^سُورَةُ\s*/,''),en:s.englishName,tr:s.englishNameTranslation,place:s.revelationType,count:s.numberOfAyahs,
+      ayahs:s.ayahs.map((y,j)=>{let t=y.text;if(j===0&&s.number!==1&&s.number!==9)t=t.split(' ').slice(4).join(' ');
+        return{n:y.numberInSurah,g:y.number,ar:t,tr:e.data.surahs[i].ayahs[j].text,juz:y.juz,page:y.page,sj:!!y.sajda}})}));
+    rList();
+  }catch(err){$('#list').innerHTML='<div class="err"><p>Could not load the Quran data. Check your connection. Data saved from a previous visit is used automatically when offline.</p><button class="btn" id="retry" style="margin-top:10px">Try again</button></div>';$('#retry').onclick=load}
+}
+
+function rList(){
+  if(!Q)return;const q=$('#q').value.trim(),ql=q.toLowerCase(),qn=norm(q);let h='';
+  const row=s=>`<button class="row" data-open="${s.n}"><span class="n">${s.n}</span><span class="m"><b>${esc(s.en)}</b><br><small>${esc(s.tr)} · ${s.place} · ${s.count} ayahs</small></span><span class="a">${esc(s.ar)}</span></button>`;
+  let list=Q.filter(s=>!flt||s.place===flt);
+  if(q){list=list.filter(s=>String(s.n)===q||s.en.toLowerCase().includes(ql)||s.tr.toLowerCase().includes(ql)||norm(s.ar).includes(qn));}
+  else{
+    if(D.last)h+=`<button class="row cont" data-open="${D.last.s}" data-a="${D.last.a}"><span class="m"><b>Continue reading</b><br><small>${esc(Q[D.last.s-1].en)}, ayah ${D.last.a}</small></span></button>`;
+    const rec=[...new Set(D.hist.map(x=>x.s))].slice(0,5);
+    if(rec.length)h+='<div class="sh">Recently read</div><div class="chips">'+rec.map(n=>`<button class="chip" data-open="${n}">${esc(Q[n-1].en)}</button>`).join('')+'</div>';
+    h+='<div class="sh">All surahs</div>';
+  }
+  h+=list.map(row).join('');
+  if(q.length>=3&&!/^\d+:\d+$/.test(q)){
+    const hits=[];
+    for(const s of Q)for(const y of s.ayahs){if(y.tr.toLowerCase().includes(ql)||norm(y.ar).includes(qn)){hits.push([s,y]);if(hits.length>=40)break}if(hits.length>=40)break}
+    if(hits.length)h+='<div class="sh">Ayah matches</div>'+hits.map(([s,y])=>`<button class="row" data-open="${s.n}" data-a="${y.n}"><span class="n">${s.n}:${y.n}</span><span class="m"><small>${esc(y.tr.slice(0,140))}</small></span></button>`).join('');
+  }
+  $('#list').innerHTML=h||'<div class="empty">No results. Try a surah name, a number, or a word from the translation.</div>';
+}
+
+function open(n,a){
+  const s=Q[n-1];cur=n;
+  D.hist=[{s:n,t:Date.now()},...D.hist.filter(x=>x.s!==n)].slice(0,50);save();
+  const ayHtml=s.ayahs.map(y=>{
+    const bm=D.bm.some(b=>b.s===n&&b.a===y.n);
+    const link=`${AI}/home.html?askAyahAI=1&surah=${encodeURIComponent(s.en)}&surahNumber=${s.n}&ayahNumber=${y.n}&arabic=${encodeURIComponent(y.ar)}&translation=${encodeURIComponent(y.tr)}`;
+    return `<article class="ay" id="a${y.n}" data-s="${n}" data-a="${y.n}"><div class="top"><span class="no">${n}:${y.n}${y.sj?' ۩':''} <small style="color:var(--mute);font-weight:400">Juz ${y.juz} · p.${y.page}</small></span>
+      <button class="ib" data-act="play" aria-label="Play ayah ${y.n}">▶</button>
+      <button class="ib ${bm?'on':''}" data-act="bm" aria-pressed="${bm}" aria-label="Bookmark ayah ${y.n}">${bm?'★':'☆'}</button>
+      <button class="ib" data-act="copy" aria-label="Copy ayah ${y.n}">⧉</button>
+      <button class="ib" data-act="share" aria-label="Share ayah ${y.n}">⇪</button>
+      <a class="ask" href="${link}" target="_blank" rel="noopener noreferrer" aria-label="Ask AyahAI about ayah ${y.n} (opens in a new tab)">✦ Ask AyahAI</a></div>
+      <p class="arb" lang="ar" dir="rtl">${esc(y.ar)} <span style="color:var(--gold);font-size:.7em">﴿${AR(y.n)}﴾</span></p><p class="trn">${esc(y.tr)}</p></article>`}).join('');
+  $('#v-read').innerHTML=`<div class="ctl"><button data-go="${n-1}" ${n===1?'disabled':''} aria-label="Previous surah">‹ Prev</button><button data-act="jump">Go to ayah</button><button data-go="${n+1}" ${n===114?'disabled':''} aria-label="Next surah">Next ›</button></div>
+    <div class="sur"><div class="a" lang="ar">${esc(s.ar)}</div><h2>${n}. ${esc(s.en)}</h2><p>${esc(s.tr)} · ${s.place} · ${s.count} ayahs</p></div>
+    ${n!==1&&n!==9?'<p class="bis" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>':''}${ayHtml}`;
+  $('#jmax').textContent=s.count;$('#jn').max=s.count;
+  apply();nav('read');mark();
+  if(a){const el=$('#a'+a);if(el)el.scrollIntoView({block:'start'})}
+  if(obs)obs.disconnect();
+  obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){D.last={s:+e.target.dataset.s,a:+e.target.dataset.a};clearTimeout(open.t);open.t=setTimeout(save,600)}}),{rootMargin:'-15% 0px -75% 0px'});
+  $$('.ay').forEach(x=>obs.observe(x));
+}
+
+/* bookmarks & history */
+function rBm(){const b=[...D.bm].sort((x,y)=>y.t-x.t);
+  $('#v-bm').innerHTML=b.length?b.map(x=>`<div class="row"><button class="m" data-open="${x.s}" data-a="${x.a}" style="text-align:left"><b>${esc(x.name)}</b> ${x.s}:${x.a}<br><small>${new Date(x.t).toLocaleString()}</small></button><button class="ib" data-rm="${x.s}:${x.a}" aria-label="Remove bookmark">✕</button></div>`).join(''):'<div class="empty">No bookmarks yet. Tap ☆ beside any ayah to save it.</div>'}
+function rHist(){$('#v-hist').innerHTML=D.hist.length?D.hist.map(x=>`<button class="row" data-open="${x.s}"><span class="n">${x.s}</span><span class="m"><b>${esc(Q?Q[x.s-1].en:x.s)}</b><br><small>${new Date(x.t).toLocaleString()}</small></span></button>`).join(''):'<div class="empty">Surahs you read will appear here.</div>'}
+function toggleBm(s,a){const i=D.bm.findIndex(b=>b.s===s&&b.a===a);
+  if(i>=0)D.bm.splice(i,1);else D.bm.push({s,a,name:Q[s-1].en,t:Date.now()});save();
+  if(view==='read'&&cur===s){const el=$(`#a${a} [data-act=bm]`);if(el){const on=i<0;el.classList.toggle('on',on);el.textContent=on?'★':'☆';el.setAttribute('aria-pressed',on)}}
+  toast(i>=0?'Bookmark removed':'Bookmarked')}
+
+/* share & copy */
+const txt=(s,a)=>{const S=Q[s-1],y=S.ayahs[a-1];return `${y.ar}\n\n${y.tr}\n\n— Quran ${s}:${a} (${S.en})`};
+async function copy(t){try{await navigator.clipboard.writeText(t);toast('Copied')}catch(e){toast('Copy not available')}}
+async function share(s,a){const t=txt(s,a);if(navigator.share){try{await navigator.share({title:'Quran '+s+':'+a,text:t})}catch(e){}}else copy(t)}
+
+/* audio */
+const au=new Audio();let P=null,rep=false,spd=1;
+const SPD=[1,1.25,1.5,0.75];
+function playA(s,a){const y=Q[s-1].ayahs[a-1];P={s,a};au.src=`https://cdn.islamic.network/quran/audio/128/ar.alafasy/${y.g}.mp3`;au.defaultPlaybackRate=au.playbackRate=spd;
+  au.play().catch(()=>toast('Audio is not available offline for this ayah'));$('#bar').hidden=false;document.body.classList.add('aud');
+  $('#bt').textContent=`${Q[s-1].en} ${s}:${a}`;mark()}
+function mark(){$$('.ay.playing').forEach(x=>x.classList.remove('playing'));
+  if(P&&view==='read'&&cur===P.s){const el=$('#a'+P.a);if(el){el.classList.add('playing');el.scrollIntoView({block:'center',behavior:'smooth'})}}}
+function step(d){if(!P)return;const n=P.a+d;if(n>=1&&n<=Q[P.s-1].count)playA(P.s,n);else if(d>0)stop()}
+function stop(){au.pause();P=null;$('#bar').hidden=true;document.body.classList.remove('aud');mark()}
+au.onended=()=>rep?playA(P.s,P.a):step(1);
+au.onplay=()=>$('#pp').textContent='⏸';au.onpause=()=>$('#pp').textContent='▶';
+au.onerror=()=>{if(P)toast('Could not load audio')};
+
+/* events */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-open],[data-act],[data-go],[data-rm],[data-v],[data-f]');if(!t||!Q&&!t.dataset.v&&!t.dataset.f)return;
+  const d=t.dataset;
+  if(d.open)open(+d.open,d.a?+d.a:0);
+  else if(d.go)open(+d.go);
+  else if(d.rm){const[s,a]=d.rm.split(':').map(Number);toggleBm(s,a);rBm()}
+  else if(d.v)nav(d.v);
+  else if(d.f!==undefined){flt=d.f;$$('#flt .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===flt));rList()}
+  else if(d.act){const ay=t.closest('.ay'),s=ay?+ay.dataset.s:0,a=ay?+ay.dataset.a:0;
+    ({play:()=>P&&P.s===s&&P.a===a?(au.paused?au.play():au.pause()):playA(s,a),bm:()=>toggleBm(s,a),copy:()=>copy(txt(s,a)),share:()=>share(s,a),
+      jump:()=>$('#jm').showModal(),prev:()=>step(-1),next:()=>step(1),stop,
+      pp:()=>au.src&&(au.paused?au.play():au.pause()),
+      rep:()=>{rep=!rep;t.setAttribute('aria-pressed',rep);t.classList.toggle('on',rep)},
+      spd:()=>{spd=SPD[(SPD.indexOf(spd)+1)%SPD.length];au.playbackRate=au.defaultPlaybackRate=spd;t.textContent=spd+'×'}})[d.act]()}
+});
+$('#jm').addEventListener('close',()=>{if($('#jm').returnValue==='go'){const a=Math.min(Math.max(+$('#jn').value||1,1),Q[cur-1].count);const el=$('#a'+a);if(el)el.scrollIntoView({block:'start'})}});
+$('#jgo').addEventListener('click',()=>{$('#jm').returnValue='go'});
+$('#q').addEventListener('input',()=>{const m=$('#q').value.trim().match(/^(\d{1,3}):(\d{1,3})$/);
+  if(m&&Q&&+m[1]>=1&&+m[1]<=114&&+m[2]<=Q[m[1]-1].count){open(+m[1],+m[2]);$('#q').value='';return}rList()});
+const theme=()=>{D.theme=D.theme==='dark'?'light':'dark';save();apply()};
+$('#thm').onclick=theme;
+$('#sDark').onchange=theme;
+$('#sAr').oninput=e=>{D.ar=+e.target.value;save();apply()};
+$('#sTr').oninput=e=>{D.tr=+e.target.value;save();apply()};
+$('#sShow').onchange=e=>{D.show=e.target.checked;save();apply()};
+$('#sClr').onclick=()=>{if(confirm('Delete all bookmarks and reading history?')){D.bm=[];D.hist=[];D.last=null;save();toast('Cleared')}};
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,textarea,select')&&e.key!=='Escape')return;
+  if(e.key==='/'){e.preventDefault();nav('home');$('#q').focus()}
+  else if(e.key==='t')theme();
+  else if(e.key==='b'&&D.last&&Q)toggleBm(D.last.s,D.last.a);
+  else if(e.key==='Escape')$('#jm').open&&$('#jm').close()});
+
+/* offline + install */
+const net=()=>$('#off').hidden=navigator.onLine;addEventListener('online',net);addEventListener('offline',net);net();
+let dp=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('#inst').hidden=$('#sInst').hidden=false});
+[$('#inst'),$('#sInst')].forEach(b=>b.onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;$('#inst').hidden=$('#sInst').hidden=true});
+addEventListener('appinstalled',()=>{$('#inst').hidden=$('#sInst').hidden=true});
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+apply();load();
+</script>
+</body>
+</html>
