@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Quran Apps Dashboard</title>
+<meta name="theme-color" content="#0b1f3a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1f3a'/%3E%3Cpath d='M32 8 38 26 56 32 38 38 32 56 26 38 8 32 26 26z' fill='%23d9b55e'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Cormorant+Garamond:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1f3a;--bg2:#10294a;--card:#112c50;--ink:#eef2f8;--mute:#9fb2cc;
+  --gold:#d9b55e;--gold2:#f0d78e;--line:#d9b55e55;--teal:#2bb5a0;--veil:.9
+}
+[data-theme=light]{
+  --bg:#eef2f8;--bg2:#e2e9f3;--card:#ffffff;--ink:#0b1f3a;--mute:#4b607d;
+  --gold:#9a7424;--gold2:#7d5c16;--line:#9a742455;--teal:#0f7f70;--veil:.93
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  min-height:100vh;font:16px/1.55 Figtree,system-ui,sans-serif;color:var(--ink);
+  background:
+    radial-gradient(1000px 520px at 50% -140px,var(--bg2),transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23999' stroke-width='1'%3E%3Cpath d='M40 6 47 25 66 18 55 36 74 40 55 44 66 62 47 55 40 74 33 55 14 62 25 44 6 40 25 36 14 18 33 25z'/%3E%3Ccircle cx='40' cy='40' r='9'/%3E%3C/g%3E%3C/svg%3E") 0 0/80px 80px,
+    var(--bg);
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  position:relative
+}
+body::before{content:"";position:fixed;inset:0;background:var(--bg);opacity:var(--veil);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:22px 18px 56px}
+:focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+.top{display:flex;justify-content:flex-end}
+.tb{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tb:hover{border-color:var(--gold)}
+
+.hero{text-align:center;padding:6px 0 30px}
+.bis{font:clamp(26px,5vw,36px)/1.8 'Amiri Quran',serif;color:var(--gold);direction:rtl}
+.orn{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px auto 12px;max-width:420px;color:var(--gold)}
+.orn i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.orn i:last-child{transform:scaleX(-1)}
+.orn svg{width:26px;height:26px}
+h1{font:600 clamp(34px,7vw,54px)/1.1 'Cormorant Garamond',serif;letter-spacing:.01em}
+.ar{font:clamp(24px,4.5vw,32px) 'Amiri Quran',serif;color:var(--gold);margin-top:6px;direction:rtl}
+.sub{color:var(--mute);max-width:520px;margin:10px auto 0}
+
+.frame{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;text-decoration:none;color:inherit;display:block;transition:transform .2s,border-color .2s,box-shadow .2s}
+.frame::after{content:"";position:absolute;inset:6px;border:1px solid var(--line);border-radius:13px;pointer-events:none}
+.frame:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 14px 34px #00000040}
+
+.feat{display:flex;align-items:center;gap:22px;padding:28px 26px;margin-bottom:26px;background:linear-gradient(135deg,var(--card),var(--bg2))}
+.med{position:relative;flex:none;width:92px;height:92px;display:grid;place-items:center}
+.med svg{position:absolute;inset:0;width:100%;height:100%;color:var(--gold)}
+.med b{position:relative;font:600 26px 'Cormorant Garamond',serif;color:var(--gold2)}
+.feat .med{width:120px;height:120px}
+.feat .med b{font-size:42px}
+.tag{font-size:14px;color:var(--teal);font-weight:600}
+.feat h2{font:600 clamp(28px,5vw,38px)/1.15 'Cormorant Garamond',serif;margin:2px 0 4px}
+.feat p{color:var(--mute);margin-bottom:14px}
+.go{display:inline-block;background:var(--gold);color:#101a2b;border-radius:999px;padding:8px 20px;font-weight:600;font-size:15px}
+[data-theme=light] .go{background:var(--bg);color:var(--ink);border:1px solid var(--gold)}
+.frame:hover .go{filter:brightness(1.08)}
+
+.sh{display:flex;align-items:center;gap:14px;margin:6px 0 16px}
+.sh h3{font:600 26px 'Cormorant Garamond',serif;white-space:nowrap}
+.sh span{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{padding:26px 22px 22px;text-align:center}
+.card .med{margin:0 auto 12px}
+.card h4{font:600 24px/1.2 'Cormorant Garamond',serif;margin-bottom:16px}
+.card .go{padding:7px 18px;font-size:14px}
+footer{margin-top:44px;text-align:center;color:var(--mute);font-size:14px}
+@media(max-width:560px){.feat{flex-direction:column;text-align:center;padding:26px 18px}.feat .med{width:104px;height:104px}}
+@media(prefers-reduced-motion:reduce){.frame{transition:none}.frame:hover{transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 100 100">
+    <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round">
+      <rect x="18" y="18" width="64" height="64"/>
+      <rect x="18" y="18" width="64" height="64" transform="rotate(45 50 50)"/>
+      <circle cx="50" cy="50" r="29" stroke-width="1.2" opacity=".7"/>
+    </g>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <div class="top"><button class="tb" id="tb" aria-label="Switch between dark and light theme">Light mode</button></div>
+
+  <header class="hero">
+    <p class="bis" lang="ar">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+    <div class="orn" aria-hidden="true"><i></i><svg><use href="#star"/></svg><i></i></div>
+    <h1>Quran Apps</h1>
+    <p class="ar" lang="ar">تطبيقات القرآن</p>
+    <p class="sub">Choose a reader to begin. Each app opens in its own window.</p>
+  </header>
+
+  <main>
+    <div id="feat"></div>
+    <div class="sh"><h3>All apps</h3><span></span></div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <footer>
+    <div class="orn" aria-hidden="true"><i></i><svg><use href="#star"/></svg><i></i></div>
+    <p>May these apps bring you closer to the Book of Allah.</p>
+  </footer>
+</div>
+
+<script>
+/* Edit links here. Paths starting with "/" resolve against the site root this page is hosted on. */
+const FEATURED={name:'Quran Reader+',note:'The main Quran reader',url:'https://supermanmubashir-png.github.io/Quraan-Pro'};
+const APPS=[
+  {m:1,name:'Quran Advance 1',url:'/ChatGPT/index.html'},
+  {m:2,name:'Quran Advance 2',url:'/Gemini/index.html'},
+  {m:3,name:'Quran Advance 3',url:'/Claude/index.html'},
+  {m:4,name:'Quran Advance 4',url:'/Perplexity/index.html'},
+  {m:5,name:'Quran Advance 5',url:'/Deepseek/index.html'},
+  {m:'ن',name:'Noor Al-Quran',url:'/noor.html'}
+];
+const medal=t=>`<span class="med"><svg aria-hidden="true"><use href="#star"/></svg><b${/[\u0600-\u06FF]/.test(t)?` lang="ar" style="font-family:'Amiri Quran',serif"`:''}>${t}</b></span>`;
+const blank='target="_blank" rel="noopener noreferrer"';
+document.getElementById('feat').innerHTML=
+ `<a class="frame feat" href="${FEATURED.url}" ${blank} aria-label="${FEATURED.name}, opens in a new window">
+   ${medal('+')}<div><div class="tag">Featured</div><h2>${FEATURED.name}</h2><p>${FEATURED.note}</p><span class="go">Open app</span></div></a>`;
+document.getElementById('grid').innerHTML=APPS.map(a=>
+ `<a class="frame card" href="${a.url}" ${blank} aria-label="${a.name}, opens in a new window">
+   ${medal(a.m)}<h4>${a.name}</h4><span class="go">Open app</span></a>`).join('');
+
+const root=document.documentElement,tb=document.getElementById('tb');
+try{const t=localStorage.getItem('qd-theme');if(t)root.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: light)').matches)root.dataset.theme='light'}catch(e){}
+const sync=()=>{const d=root.dataset.theme==='dark';tb.textContent=d?'Light mode':'Dark mode';document.querySelector('meta[name=theme-color]').content=d?'#0b1f3a':'#eef2f8'};
+tb.onclick=()=>{root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('qd-theme',root.dataset.theme)}catch(e){}sync()};
+sync();
+</script>
+</body>
+</html>
